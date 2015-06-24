@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qUE-Ln-kiH">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="UXX-SW-ycJ">
+            <objects>
+                <navigationController hidesBarsOnTap="YES" hidesBarsWhenKeyboardAppears="YES" hidesBarsWhenVerticallyCompact="YES" id="qUE-Ln-kiH" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k0f-8y-gA8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="sLF-z3-YjJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8qK-gp-kxj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-239" y="361"/>
+        </scene>
+        <!--Travel Locations-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +32,41 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CI7-jJ-Ik6">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CI7-jJ-Ik6" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="5we-4i-0eD"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="CI7-jJ-Ik6" secondAttribute="bottom" constant="-46" id="Enc-De-76L"/>
+                            <constraint firstAttribute="trailing" secondItem="CI7-jJ-Ik6" secondAttribute="trailing" id="K8W-E9-7uB"/>
+                            <constraint firstItem="CI7-jJ-Ik6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="KkD-mh-aVE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CI7-jJ-Ik6" secondAttribute="trailing" id="N6z-v2-Dh8"/>
+                            <constraint firstItem="CI7-jJ-Ik6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UOc-Sg-EL6"/>
+                            <constraint firstAttribute="bottom" secondItem="CI7-jJ-Ik6" secondAttribute="bottom" id="Z4y-9k-XpT"/>
+                            <constraint firstItem="CI7-jJ-Ik6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="26" id="dhn-xG-2TG"/>
+                            <constraint firstItem="CI7-jJ-Ik6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="viK-2v-CBL"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Enc-De-76L"/>
+                                <exclude reference="KkD-mh-aVE"/>
+                                <exclude reference="N6z-v2-Dh8"/>
+                                <exclude reference="dhn-xG-2TG"/>
+                                <exclude reference="viK-2v-CBL"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Travel Locations" id="aa3-Xt-SwJ"/>
+                    <connections>
+                        <outlet property="mapView" destination="CI7-jJ-Ik6" id="0E6-q1-IlH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="467" y="361"/>
         </scene>
     </scenes>
 </document>
