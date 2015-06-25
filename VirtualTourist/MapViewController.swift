@@ -13,32 +13,22 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var mapManager: MapManager?
+    var mapManager: MapManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         mapManager = MapManager()
-        if let mapState = mapManager?.mapState,
-            mapRegion = mapState.mapRegion {
-                mapView.setRegion(mapRegion, animated: true)
-        } else {
-            mapManager?.mapState?.mapRegion = mapView.region
+        if let restoredRegion = mapManager.restoreRegion() {
+            mapView.setRegion(restoredRegion, animated: true)
         }
-
         mapView.delegate = self
     }
-
 }
 
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        Logger.info("RegionDidChange")
-        mapManager?.mapState?.mapRegion = mapView.region
-        mapManager?.saveState()
-        
+        mapManager.saveRegion(mapView.region)
     }
     
 }

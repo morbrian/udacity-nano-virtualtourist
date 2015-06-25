@@ -7,29 +7,45 @@
 //
 
 import Foundation
+import MapKit
 
 class MapManager {
     
-    var mapState: MapState?
+    init() { }
     
-    init() {
-        mapState = NSKeyedUnarchiver.unarchiveObjectWithFile(mapStateFilePath) as? MapState
-        if mapState == nil {
-            mapState = MapState()
-        }
-        Logger.info("MapState is: \(mapState)")
+    func saveRegion(mapRegion: MKCoordinateRegion) {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setDouble(mapRegion.center.latitude, forKey: MapStateKeys.CenterLatitude)
+        defaults.setDouble(mapRegion.center.longitude, forKey: MapStateKeys.CenterLongitude)
+        defaults.setDouble(mapRegion.span.latitudeDelta, forKey: MapStateKeys.SpanLatitude)
+        defaults.setDouble(mapRegion.span.longitudeDelta, forKey: MapStateKeys.SpanLongitude)
+        defaults.setBool(true, forKey: MapStateKeys.Saved)
     }
     
-    func saveState() {
-        if let mapState = mapState {
-            NSKeyedArchiver.archiveRootObject(mapState, toFile: mapStateFilePath)
+    func restoreRegion() -> MKCoordinateRegion? {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        if defaults.boolForKey(MapStateKeys.Saved) {
+            let center = CLLocationCoordinate2D(
+                    latitude: defaults.doubleForKey(MapStateKeys.CenterLatitude),
+                    longitude: defaults.doubleForKey(MapStateKeys.CenterLongitude))
+            let span = MKCoordinateSpan(
+                    latitudeDelta: defaults.doubleForKey(MapStateKeys.SpanLatitude),
+                    longitudeDelta: defaults.doubleForKey(MapStateKeys.SpanLongitude))
+            return MKCoordinateRegionMake(center, span)
+        } else {
+            return nil
         }
-        Logger.info("Saved MapState: \(mapState)")
     }
-    
-    var mapStateFilePath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first as! NSURL
-        return url.URLByAppendingPathComponent("mapState").path!
+}
+
+// MARK: - Constants
+
+extension MapManager {
+    struct MapStateKeys {
+        static let Saved = "map.region.saved"
+        static let SpanLatitude = "map.region.span.latitudeDelta"
+        static let SpanLongitude = "map.region.span.longitudeDelta"
+        static let CenterLatitude = "map.region.center.latitude"
+        static let CenterLongitude = "map.region.center.longitude"
     }
 }
