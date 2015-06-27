@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EC734A61B3E5F15002C8A33 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC734A51B3E5F15002C8A33 /* Pin.swift */; };
 		4ED416FB1B38F54900C0618F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED416FA1B38F54900C0618F /* AppDelegate.swift */; };
 		4ED416FE1B38F54900C0618F /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4ED416FC1B38F54900C0618F /* VirtualTourist.xcdatamodeld */; };
 		4ED417001B38F54900C0618F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED416FF1B38F54900C0618F /* MapViewController.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4EC734A51B3E5F15002C8A33 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		4ED416F51B38F54900C0618F /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ED416F91B38F54900C0618F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4ED416FA1B38F54900C0618F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		4ED417211B39116100C0618F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EC734A51B3E5F15002C8A33 /* Pin.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				4ED417201B38FA9D00C0618F /* MapManager.swift in Sources */,
 				4ED417261B3A6FA400C0618F /* Logger.swift in Sources */,
 				4ED417001B38F54900C0618F /* MapViewController.swift in Sources */,
+				4EC734A61B3E5F15002C8A33 /* Pin.swift in Sources */,
 				4ED416FE1B38F54900C0618F /* VirtualTourist.xcdatamodeld in Sources */,
 				4ED416FB1B38F54900C0618F /* AppDelegate.swift in Sources */,
 			);
@@ -448,6 +452,7 @@
 				4ED417191B38F54A00C0618F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4ED4171A1B38F54A00C0618F /* Build configuration list for PBXNativeTarget "VirtualTouristTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +461,7 @@
 				4ED4171C1B38F54A00C0618F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -8,10 +8,34 @@
 
 import Foundation
 import MapKit
+import CoreData
 
 class MapManager {
     
+    var travelLocations = [Pin]()
+    
     init() { }
+    
+    func createTravelLocation(travelLocation: CLLocationCoordinate2D, inManagedObjectContext managedObjectContext: NSManagedObjectContext) -> Pin {
+        let newLocation = NSEntityDescription.insertNewObjectForEntityForName("Pin", inManagedObjectContext: managedObjectContext) as! Pin
+        newLocation.latitude = travelLocation.latitude
+        newLocation.longitude = travelLocation.longitude
+        return newLocation
+    }
+    
+    func fetchTravelLocationsFromContext(managedObjectContext: NSManagedObjectContext) -> [Pin] {
+        // Create a new fetch request using the LogItem entity
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        // Execute the fetch request, and cast the results to an array of LogItem objects
+        if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [Pin] {
+            return fetchResults
+        } else {
+            Logger.error("Failed to find proper Pin array")
+            return [Pin]()
+        }
+
+    }
     
     func saveRegion(mapRegion: MKCoordinateRegion) {
         var defaults = NSUserDefaults.standardUserDefaults()
