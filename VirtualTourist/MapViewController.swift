@@ -32,6 +32,7 @@ class MapViewController: UIViewController {
         
         mapView.delegate = self
         view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "handleLongPress:"))
+        
     }
     
     // MARK: Gestures
@@ -41,11 +42,10 @@ class MapViewController: UIViewController {
         if sender.state == UIGestureRecognizerState.Began {
             var coordinate = mapView.convertPoint(sender.locationOfTouch(0, inView: mapView), toCoordinateFromView: mapView)
             var pin = mapManager.createTravelLocation(coordinate, inManagedObjectContext: self.managedObjectContext!)
+            //var pin = MyPin(coord: coordinate)
             self.mapView.addAnnotation(pin)
         }
     }
-    
-
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -54,24 +54,53 @@ extension MapViewController: MKMapViewDelegate {
         mapManager.saveRegion(mapView.region)
     }
     
+    func mapView(mapView: MKMapView!,
+        viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+            
+            if annotation is MKUserLocation {
+                //return nil so map view draws "blue dot" for standard user location
+                return nil
+            }
+            let reuseId = Constants.PinAnnotationReuseIdentifier
+//            
+//            var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+//            if pinView == nil {
+                var pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+                pinView!.canShowCallout = false
+                pinView!.draggable = true
+                pinView!.annotation.coordinate
+                pinView!.animatesDrop = true
+                pinView!.pinColor = .Green
+//            }
+//            else {
+//                pinView!.annotation = annotation
+//            }
+            
+            return pinView
+    }
 }
 
 extension Pin: MKAnnotation {
-    
-    @objc var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+        }
+        set {
+            latitude = newValue.latitude
+            longitude = newValue.longitude
+        }
     }
     
     var title: String! {
-        return ""
+        return "asdf"
     }
     
     var subtitle: String! {
         return ""
     }
+    
+    var draggable: Bool {
+        return true
+    }
 }
-
-
-
-
 
