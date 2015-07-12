@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  VirtualTourist
 //
 //  Created by Brian Moriarty on 6/22/15.
@@ -8,31 +8,34 @@
 
 import UIKit
 import MapKit
+import CoreData
 
+// MapViewController
+// Displays a map showing tourist locations geographically.
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var mapManager: MapManager!
+    var context: NSManagedObjectContext?
     
-    // Retreive the managedObjectContext from AppDelegate
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-    
+    var pins: [Pin]!
+    var userPreferences: UserPreferences!
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapManager = MapManager()
-        if let restoredRegion = mapManager.restoreRegion() {
+        context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
+        
+        userPreferences = UserPreferences.sharedInstance()
+        if let restoredRegion = userPreferences.restoreRegion() {
             mapView.setRegion(restoredRegion, animated: true)
         }
-        
-        if let managedObjectContext = managedObjectContext {
-            var pins = mapManager.fetchTravelLocationsFromContext(managedObjectContext)
-            mapView.addAnnotations(pins)
-        }
+
+        pins = Pin.fetchFromManagedObjectContext(context!)
+        mapView.addAnnotations(pins)
         
         mapView.delegate = self
         view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "handleLongPress:"))
-        
     }
     
     // MARK: Gestures
@@ -41,17 +44,20 @@ class MapViewController: UIViewController {
     func handleLongPress(sender: UIGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Began {
             var coordinate = mapView.convertPoint(sender.locationOfTouch(0, inView: mapView), toCoordinateFromView: mapView)
-            var pin = mapManager.createTravelLocation(coordinate, inManagedObjectContext: self.managedObjectContext!)
+            var pin = Pin.createInManagedObjectContext(context!, location: coordinate)
             //var pin = MyPin(coord: coordinate)
             self.mapView.addAnnotation(pin)
         }
     }
 }
 
+// MARK: - MKMapViewDelegate 
+
 extension MapViewController: MKMapViewDelegate {
     
+    // save the displayed region on every pan or zoom
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
-        mapManager.saveRegion(mapView.region)
+        userPreferences.saveRegion(mapView.region)
     }
     
     func mapView(mapView: MKMapView!,
@@ -62,34 +68,42 @@ extension MapViewController: MKMapViewDelegate {
                 return nil
             }
             let reuseId = Constants.PinAnnotationReuseIdentifier
-//            
-//            var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
-//            if pinView == nil {
-                var pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            
+            var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+            if pinView == nil {
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
                 pinView!.canShowCallout = false
                 pinView!.draggable = true
-                pinView!.annotation.coordinate
                 pinView!.animatesDrop = true
                 pinView!.pinColor = .Green
-//            }
-//            else {
-//                pinView!.annotation = annotation
-//            }
+            } else {
+                pinView!.annotation = annotation
+            }
             
             return pinView
     }
-}
-
-extension Pin: MKAnnotation {
-    var coordinate: CLLocationCoordinate2D {
-        get {
-            return CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        }
-        set {
-            latitude = newValue.latitude
-            longitude = newValue.longitude
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+        Logger.info("DragState: \(newState)");
+        // TODO: we could probably do something to persist the state immediately when drag ended.
+    }
+    
+    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        Logger.info("Tapped It With State: \(view.dragState)")
+        self.performSegueWithIdentifier(Constants.ShowAlbumSegue, sender: view.annotation)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let destination = segue.destinationViewController as? AlbumViewController,
+            pin = sender as? Pin {
+                destination.photos = pin.photos
         }
     }
+}
+
+// MARK: - MKAnnotation
+
+extension Pin: MKAnnotation {
     
     var title: String! {
         return "asdf"
@@ -101,6 +115,19 @@ extension Pin: MKAnnotation {
     
     var draggable: Bool {
         return true
+    }
+}
+
+// MARK: - Printable MKAnnotationViewDragState
+extension MKAnnotationViewDragState: Printable {
+    public var description: String {
+        switch self {
+        case None: return "None"
+        case Starting: return "Starting"
+        case Dragging: return "Dragging"
+        case Canceling: return "Canceling"
+        case Ending: return "Ending"
+        }
     }
 }
 

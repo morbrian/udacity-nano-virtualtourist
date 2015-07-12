@@ -1,5 +1,5 @@
 //
-//  Pin.swift
+//  Photo.swift
 //  VirtualTourist
 //
 //  Created by Brian Moriarty on 7/12/15.
@@ -9,12 +9,11 @@
 import Foundation
 import CoreData
 
-@objc(Pin)
+@objc(Photo)
 
-class Pin: NSManagedObject {
+class Photo: NSManagedObject {
 
-    @NSManaged var latitude: Double
-    @NSManaged var longitude: Double
-    @NSManaged var photos: [Photo]
+    @NSManaged var imageUrl: String
+    @NSManaged var pin: Pin
 
 }

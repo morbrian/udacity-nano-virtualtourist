@@ -11,6 +11,16 @@ import Foundation
 // Constants used Application wide
 struct Constants {
 
+    // Core Data Model
+    
+    static let PinEntityName = "Pin"
+    
+    // UIKit Identifiers
+    
     static let PinAnnotationReuseIdentifier = "Pin"
+    
+    static let ShowAlbumSegue = "ShowAlbumSegue"
+    
+    static let AlbumCellIdentifier = "AlbumCellIdentifier"
     
 }
