@@ -23,6 +23,7 @@
 		4EEE70A21B52CBCE000E9F09 /* PinExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE70A11B52CBCE000E9F09 /* PinExtension.swift */; };
 		4EEE70A81B52DCC7000E9F09 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE70A71B52DCC7000E9F09 /* Photo.swift */; };
 		4EEE70AA1B52DCC8000E9F09 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE70A91B52DCC8000E9F09 /* Pin.swift */; };
+		4EEE70AC1B52E329000E9F09 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE70AB1B52E328000E9F09 /* CoreDataStackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		4EEE70A11B52CBCE000E9F09 /* PinExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinExtension.swift; sourceTree = "<group>"; };
 		4EEE70A71B52DCC7000E9F09 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		4EEE70A91B52DCC8000E9F09 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		4EEE70AB1B52E328000E9F09 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				4EEE70931B4C759D000E9F09 /* UserPreferences.swift */,
+				4EEE70AB1B52E328000E9F09 /* CoreDataStackManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				4EEE70AA1B52DCC8000E9F09 /* Pin.swift in Sources */,
 				4EEE70901B4C636A000E9F09 /* AlbumCellView.swift in Sources */,
 				4EEE70941B4C759D000E9F09 /* UserPreferences.swift in Sources */,
+				4EEE70AC1B52E329000E9F09 /* CoreDataStackManager.swift in Sources */,
 				4ED417001B38F54900C0618F /* MapViewController.swift in Sources */,
 				4EEE708D1B4B368C000E9F09 /* AlbumViewController.swift in Sources */,
 				4EC734AA1B40CB28002C8A33 /* Constants.swift in Sources */,

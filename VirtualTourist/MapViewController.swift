@@ -24,7 +24,7 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext!
+        context = CoreDataStackManager.sharedInstance().managedObjectContext!
         
         userPreferences = UserPreferences.sharedInstance()
         if let restoredRegion = userPreferences.restoreRegion() {
@@ -45,7 +45,7 @@ class MapViewController: UIViewController {
         if sender.state == UIGestureRecognizerState.Began {
             var coordinate = mapView.convertPoint(sender.locationOfTouch(0, inView: mapView), toCoordinateFromView: mapView)
             var pin = Pin.createInManagedObjectContext(context!, location: coordinate)
-            //var pin = MyPin(coord: coordinate)
+            CoreDataStackManager.sharedInstance().saveContext()
             self.mapView.addAnnotation(pin)
         }
     }
