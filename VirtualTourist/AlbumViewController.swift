@@ -16,6 +16,11 @@ class AlbumViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let photos = photos {
+            for p in photos {
+                Logger.info("- \(p.photoUrlString)")
+            }
+        }
     }
 
 }
@@ -25,7 +30,7 @@ class AlbumViewController: UIViewController {
 extension AlbumViewController: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // PENDING: placeholder -- might not bother, but could display image full screen and let user annotate with a trip report.
+        // TODO: miniumum - offer option to delete; optional -  provide other capability like edit/annotate perhaps
     }
     
 }
@@ -44,7 +49,8 @@ extension AlbumViewController: UICollectionViewDataSource {
             var photo = photos?[indexPath.item]
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.AlbumCellIdentifier, forIndexPath: indexPath) as! AlbumCellView
             
-            cell.imageView?.image = nil // need to load image
+            cell.photo = photo
+            
             return cell
     }
 }

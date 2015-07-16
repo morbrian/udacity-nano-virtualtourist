@@ -45,7 +45,7 @@ class MapViewController: UIViewController {
         if sender.state == UIGestureRecognizerState.Began {
             var coordinate = mapView.convertPoint(sender.locationOfTouch(0, inView: mapView), toCoordinateFromView: mapView)
             var pin = Pin.createInManagedObjectContext(context!, location: coordinate)
-            CoreDataStackManager.sharedInstance().saveContext()
+            
             self.mapView.addAnnotation(pin)
         }
     }

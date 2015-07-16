@@ -14,6 +14,7 @@ struct Constants {
     // Core Data Model
     
     static let PinEntityName = "Pin"
+    static let PhotoEntityName = "Photo"
     
     // UIKit Identifiers
     

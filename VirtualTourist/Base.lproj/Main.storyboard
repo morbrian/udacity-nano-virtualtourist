@@ -84,8 +84,16 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="150" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="g2g-AC-SmC">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-1X-RYv">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cbd-eq-czr"/>
+                                    <barButtonItem title="New Collection" id="T3b-Ev-rpe"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2Un-jF-Scf"/>
+                                </items>
+                            </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hgr-ch-Ilp">
-                                <rect key="frame" x="0.0" y="150" width="600" height="450"/>
+                                <rect key="frame" x="0.0" y="150" width="600" height="406"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EHN-fG-m6K">
                                     <size key="itemSize" width="95" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -100,49 +108,58 @@
                                             <rect key="frame" x="0.0" y="0.0" width="95" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-tg-4vj">
-                                                    <rect key="frame" x="0.0" y="0.0" width="95" height="90"/>
-                                                </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t2p-km-rcF">
                                                     <rect key="frame" x="37" y="35" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-tg-4vj">
+                                                    <rect key="frame" x="-253" y="-158" width="600" height="406"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJX-J3-WFm">
+                                                    <rect key="frame" x="26" y="34" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="nzo-tg-4vj" secondAttribute="trailing" id="KLz-Yu-aPU"/>
-                                            <constraint firstAttribute="bottom" secondItem="nzo-tg-4vj" secondAttribute="bottom" id="feh-gJ-Gec"/>
-                                            <constraint firstItem="nzo-tg-4vj" firstAttribute="leading" secondItem="dQA-Km-Nrt" secondAttribute="leading" id="imh-oq-Hxk"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="nzo-tg-4vj" secondAttribute="trailing" constant="8" id="l75-EC-gik"/>
-                                            <constraint firstItem="nzo-tg-4vj" firstAttribute="top" secondItem="dQA-Km-Nrt" secondAttribute="top" id="mNS-pj-6yN"/>
-                                            <constraint firstItem="nzo-tg-4vj" firstAttribute="leading" secondItem="dQA-Km-Nrt" secondAttribute="leadingMargin" constant="8" id="mck-rW-TQF"/>
+                                            <constraint firstAttribute="centerX" secondItem="VJX-J3-WFm" secondAttribute="centerX" constant="0.5" id="OtI-IE-vkZ"/>
+                                            <constraint firstAttribute="centerY" secondItem="VJX-J3-WFm" secondAttribute="centerY" constant="0.5" id="jcL-Xr-ZcH"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="l75-EC-gik"/>
-                                                <exclude reference="mck-rW-TQF"/>
-                                            </mask>
-                                        </variation>
+                                        <connections>
+                                            <outlet property="imageView" destination="nzo-tg-4vj" id="f8e-l9-smX"/>
+                                            <outlet property="title" destination="VJX-J3-WFm" id="rqJ-21-Xn4"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="gJ4-1X-RYv" firstAttribute="leading" secondItem="ppy-dy-279" secondAttribute="leading" constant="-16" id="5B0-gL-lLz"/>
                             <constraint firstItem="g2g-AC-SmC" firstAttribute="top" secondItem="ppy-dy-279" secondAttribute="top" id="8Df-f5-wby"/>
                             <constraint firstItem="hgr-ch-Ilp" firstAttribute="leading" secondItem="ppy-dy-279" secondAttribute="leadingMargin" constant="174" id="9Sg-M3-ftV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hgr-ch-Ilp" secondAttribute="trailing" constant="-16" id="DRU-g1-NM5"/>
                             <constraint firstItem="g2g-AC-SmC" firstAttribute="leading" secondItem="ppy-dy-279" secondAttribute="leadingMargin" constant="-16" id="E6E-I9-ZaL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="g2g-AC-SmC" secondAttribute="trailing" constant="-16" id="K0x-aE-4eE"/>
                             <constraint firstAttribute="bottom" secondItem="hgr-ch-Ilp" secondAttribute="bottom" id="QAs-E3-lVh"/>
+                            <constraint firstAttribute="trailing" secondItem="gJ4-1X-RYv" secondAttribute="trailing" constant="-16" id="Rjm-P6-qFL"/>
                             <constraint firstItem="hgr-ch-Ilp" firstAttribute="top" secondItem="g2g-AC-SmC" secondAttribute="bottom" id="SA8-28-dwX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gJ4-1X-RYv" secondAttribute="trailing" constant="-16" id="WeO-ZA-sLE"/>
+                            <constraint firstItem="gJ4-1X-RYv" firstAttribute="leading" secondItem="ppy-dy-279" secondAttribute="leadingMargin" constant="-16" id="fIu-pc-dVV"/>
+                            <constraint firstItem="gJ4-1X-RYv" firstAttribute="top" secondItem="hgr-ch-Ilp" secondAttribute="bottom" id="fzK-rv-OhY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hgr-ch-Ilp" secondAttribute="trailing" constant="94" id="mp4-K1-zMv"/>
                             <constraint firstItem="hgr-ch-Ilp" firstAttribute="leading" secondItem="ppy-dy-279" secondAttribute="leadingMargin" constant="-16" id="x2J-mh-3f7"/>
+                            <constraint firstItem="et0-i9-HH4" firstAttribute="top" secondItem="gJ4-1X-RYv" secondAttribute="bottom" id="xAF-8s-6eA"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="9Sg-M3-ftV"/>
+                                <exclude reference="QAs-E3-lVh"/>
                                 <exclude reference="mp4-K1-zMv"/>
+                                <exclude reference="5B0-gL-lLz"/>
+                                <exclude reference="Rjm-P6-qFL"/>
                             </mask>
                         </variation>
                     </view>

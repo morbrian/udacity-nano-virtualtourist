@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E1ED9411B5314E500A5FD18 /* PhotoExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1ED9401B5314E500A5FD18 /* PhotoExtension.swift */; };
+		4E1ED9431B5317A600A5FD18 /* WebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1ED9421B5317A600A5FD18 /* WebClient.swift */; };
+		4E1ED9461B5317E900A5FD18 /* FlickrService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1ED9451B5317E900A5FD18 /* FlickrService.swift */; };
 		4EC734AA1B40CB28002C8A33 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC734A91B40CB28002C8A33 /* Constants.swift */; };
 		4ED416FB1B38F54900C0618F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED416FA1B38F54900C0618F /* AppDelegate.swift */; };
 		4ED416FE1B38F54900C0618F /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4ED416FC1B38F54900C0618F /* VirtualTourist.xcdatamodeld */; };
@@ -37,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E1ED9401B5314E500A5FD18 /* PhotoExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoExtension.swift; sourceTree = "<group>"; };
+		4E1ED9421B5317A600A5FD18 /* WebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebClient.swift; sourceTree = "<group>"; };
+		4E1ED9451B5317E900A5FD18 /* FlickrService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrService.swift; sourceTree = "<group>"; };
 		4EC734A91B40CB28002C8A33 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4ED416F51B38F54900C0618F /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ED416F91B38F54900C0618F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,6 +85,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E1ED9441B5317D300A5FD18 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				4E1ED9451B5317E900A5FD18 /* FlickrService.swift */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
 		4EC734A71B40CAE2002C8A33 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +135,7 @@
 			children = (
 				4EC734A91B40CB28002C8A33 /* Constants.swift */,
 				4ED417241B3A6F9200C0618F /* Public */,
+				4E1ED9441B5317D300A5FD18 /* Clients */,
 				4ED417211B39116100C0618F /* Model */,
 				4EC734A81B40CB08002C8A33 /* Managers */,
 				4EC734A71B40CAE2002C8A33 /* ViewControllers */,
@@ -166,6 +181,7 @@
 				4EEE70A91B52DCC8000E9F09 /* Pin.swift */,
 				4EEE70A71B52DCC7000E9F09 /* Photo.swift */,
 				4EEE70A11B52CBCE000E9F09 /* PinExtension.swift */,
+				4E1ED9401B5314E500A5FD18 /* PhotoExtension.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -174,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				4ED417251B3A6FA400C0618F /* Logger.swift */,
+				4E1ED9421B5317A600A5FD18 /* WebClient.swift */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -291,7 +308,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E1ED9411B5314E500A5FD18 /* PhotoExtension.swift in Sources */,
 				4EEE70A81B52DCC7000E9F09 /* Photo.swift in Sources */,
+				4E1ED9461B5317E900A5FD18 /* FlickrService.swift in Sources */,
 				4ED417261B3A6FA400C0618F /* Logger.swift in Sources */,
 				4EEE70A21B52CBCE000E9F09 /* PinExtension.swift in Sources */,
 				4EEE70AA1B52DCC8000E9F09 /* Pin.swift in Sources */,
@@ -301,6 +320,7 @@
 				4ED417001B38F54900C0618F /* MapViewController.swift in Sources */,
 				4EEE708D1B4B368C000E9F09 /* AlbumViewController.swift in Sources */,
 				4EC734AA1B40CB28002C8A33 /* Constants.swift in Sources */,
+				4E1ED9431B5317A600A5FD18 /* WebClient.swift in Sources */,
 				4ED416FE1B38F54900C0618F /* VirtualTourist.xcdatamodeld in Sources */,
 				4ED416FB1B38F54900C0618F /* AppDelegate.swift in Sources */,
 			);

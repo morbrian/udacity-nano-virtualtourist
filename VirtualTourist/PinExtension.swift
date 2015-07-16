@@ -17,6 +17,19 @@ extension Pin {
     class func createInManagedObjectContext(context: NSManagedObjectContext, location: CLLocationCoordinate2D) -> Pin {
         let newPin = NSEntityDescription.insertNewObjectForEntityForName(Constants.PinEntityName, inManagedObjectContext: context) as! Pin
         newPin.coordinate = location
+        CoreDataStackManager.sharedInstance().saveContext()
+        FlickrService.sharedInstance().fetchPhotosNearCoordinates(latitude: Double(location.latitude), longitude: Double(location.longitude)) { photoUrls, error in
+            if let error = error {
+                Logger.error("Failed to get photo list for pin: \(error)")
+            } else if let photoUrls = photoUrls {
+                for photoUrl in photoUrls {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        Photo.createInManagedObjectContext(context, pin: newPin, photoUrlString: photoUrl.absoluteString!)
+                    }
+                }
+            }
+        }
+        
         return newPin
     }
     

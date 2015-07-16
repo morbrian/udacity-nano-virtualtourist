@@ -13,7 +13,7 @@ import CoreData
 
 class Photo: NSManagedObject {
 
-    @NSManaged var imageUrl: String
+    @NSManaged var photoUrlString: String
     @NSManaged var pin: Pin
 
 }

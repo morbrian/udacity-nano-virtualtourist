@@ -11,5 +11,15 @@ import UIKit
 class AlbumCellView: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView?
+    @IBOutlet weak var title: UILabel!
+    
+    var photo: Photo? {
+        didSet {
+            if let photo = photo {
+//                imageView?.image =  TODO: photo.loadImage()
+                title?.text = photo.title
+            }
+        }
+    }
     
 }
