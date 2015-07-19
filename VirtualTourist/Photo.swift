@@ -14,6 +14,6 @@ import CoreData
 class Photo: NSManagedObject {
 
     @NSManaged var photoUrlString: String
-    @NSManaged var pin: Pin
+    @NSManaged var pin: Pin?
 
 }

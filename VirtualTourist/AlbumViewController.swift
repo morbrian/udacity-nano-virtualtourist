@@ -12,7 +12,31 @@ import UIKit
 
 class AlbumViewController: UIViewController {
     
+    let CollectionCellsPerRowLandscape = 5
+    let CollectionCellsPerRowPortrait = 3
+    
+    // CODE: set as 2 in IB, not sure how to reference that value in code, so keep this in sync
+    let CollectionCellSpacing = 2
+    
     var photos: [Photo]?
+    @IBOutlet weak var collectionView: UICollectionView!
+
+    private var defaultCount: Int?
+    private var collectionCellCountPerRow: Int {
+        let orientation = UIDevice.currentDevice().orientation
+        switch orientation {
+        case .LandscapeLeft, .LandscapeRight:
+            defaultCount = CollectionCellsPerRowLandscape
+            return CollectionCellsPerRowLandscape
+        case .Portrait:
+            defaultCount = CollectionCellsPerRowPortrait
+            return CollectionCellsPerRowPortrait
+        default:
+            return defaultCount ?? CollectionCellsPerRowPortrait
+        }
+    }
+    
+    // MARK: ViewController Lifecycle 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +44,19 @@ class AlbumViewController: UIViewController {
             for p in photos {
                 Logger.info("- \(p.photoUrlString)")
             }
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        calculateCollectionCellSize()
+    }
+    
+    // calculates cell size based on cells-per-row for the current device orientation
+    private func calculateCollectionCellSize() {
+        if let collectionView = collectionView {
+            let width = collectionView.frame.width / CGFloat(collectionCellCountPerRow) - CGFloat(CollectionCellSpacing)
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.itemSize = CGSize(width: width, height: width)
         }
     }
 
@@ -45,10 +82,11 @@ extension AlbumViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-            
             var photo = photos?[indexPath.item]
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.AlbumCellIdentifier, forIndexPath: indexPath) as! AlbumCellView
             
+            // reset the image so we won't see the wrong image during loading when cell is reused
+            cell.imageView?.image = nil
             cell.photo = photo
             
             return cell

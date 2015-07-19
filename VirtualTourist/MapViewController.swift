@@ -106,7 +106,7 @@ extension MapViewController: MKMapViewDelegate {
 extension Pin: MKAnnotation {
     
     var title: String! {
-        return "asdf"
+        return ""
     }
     
     var subtitle: String! {

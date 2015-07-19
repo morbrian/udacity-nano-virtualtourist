@@ -83,6 +83,15 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="150" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="g2g-AC-SmC">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="DcB-Io-A33"/>
+                                    <constraint firstAttribute="height" constant="150" id="HuQ-ki-Oim"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="DcB-Io-A33"/>
+                                    </mask>
+                                </variation>
                             </mapView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJ4-1X-RYv">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
@@ -94,45 +103,45 @@
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hgr-ch-Ilp">
                                 <rect key="frame" x="0.0" y="150" width="600" height="406"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EHN-fG-m6K">
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="EHN-fG-m6K">
                                     <size key="itemSize" width="95" height="90"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumCellIdentifier" id="dQA-Km-Nrt" customClass="AlbumCellView" customModule="VirtualTourist" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="AlbumCellIdentifier" id="dQA-Km-Nrt" customClass="AlbumCellView" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="95" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t2p-km-rcF">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t2p-km-rcF">
                                                     <rect key="frame" x="37" y="35" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-tg-4vj">
                                                     <rect key="frame" x="-253" y="-158" width="600" height="406"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJX-J3-WFm">
-                                                    <rect key="frame" x="26" y="34" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="centerX" secondItem="VJX-J3-WFm" secondAttribute="centerX" constant="0.5" id="OtI-IE-vkZ"/>
-                                            <constraint firstAttribute="centerY" secondItem="VJX-J3-WFm" secondAttribute="centerY" constant="0.5" id="jcL-Xr-ZcH"/>
+                                            <constraint firstAttribute="centerX" secondItem="t2p-km-rcF" secondAttribute="centerX" constant="0.5" id="WM4-ed-lIm"/>
+                                            <constraint firstAttribute="centerY" secondItem="t2p-km-rcF" secondAttribute="centerY" id="nSV-Zf-epz"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="t2p-km-rcF" id="w4d-LJ-cW6"/>
                                             <outlet property="imageView" destination="nzo-tg-4vj" id="f8e-l9-smX"/>
-                                            <outlet property="title" destination="VJX-J3-WFm" id="rqJ-21-Xn4"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="F37-9p-lqa" id="lFC-wW-aJV"/>
+                                    <outlet property="delegate" destination="F37-9p-lqa" id="UaR-d0-W5h"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -163,6 +172,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="hgr-ch-Ilp" id="jm0-yr-weJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e3c-5d-mZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
