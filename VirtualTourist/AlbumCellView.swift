@@ -8,9 +8,8 @@
 
 import UIKit
 
-class AlbumCellView: UICollectionViewCell {
+class AlbumCellView: TaskCancelingCollectionViewCell {
     
-    @IBOutlet weak var imageView: UIImageView?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView? {
         didSet {
             // TODO: this is not showing the desired effect, may need to embed in containing view.
@@ -23,17 +22,54 @@ class AlbumCellView: UICollectionViewCell {
         didSet {
             if let photo = photo {
                 activityIndicator?.startAnimating()
-                photo.loadImage() { image, error in
-                    // since this cell is reused, make sure when the thread
-                    // comes back onto main the cell still has the same photo.
-                    if self.photo?.photoUrlString == photo.photoUrlString {
-                        self.activityIndicator?.stopAnimating()
-                        self.imageView?.image = image
-                    }
-                }
+                configureCell(photo)
             }
         }
     }
+    
+    // MARK: - Configure Cell
+    
+    func configureCell(photo: Photo) {
+        Logger.info("Configure Cell For: \(photo.photoUrlString)")
+
+        // Set the Image
+
+        if photo.photoPath == nil || photo.photoPath!.isEmpty {
+            imageView!.image = UIImage(named: "photoNoImage")
+        } else if photo.photoImage != nil {
+            imageView!.image = photo.photoImage
+        }
+            
+        else { // This is the interesting case. The movie has an image name, but it is not downloaded yet.
+            
+            imageView!.image =  UIImage(named: "photoPlaceHoldr")
+            
+            // Start the task that will eventually download the image
+            let task = photo.taskForImage() { data, error in
+                
+                if let error = error {
+                    println("Poster download error: \(error.localizedDescription)")
+                }
+                
+                if let data = data {
+                    // Craete the image
+                    let image = UIImage(data: data)
+                    
+                    // update the model, so that the infrmation gets cashed
+                    photo.photoImage = image
+                    
+                    if self.photo?.photoPath == photo.photoPath {
+                        self.activityIndicator?.stopAnimating()
+                        self.imageView!.image = image
+                    }
+                }
+            }
+            task.resume()
+            // This is the custom property on this cell. See TaskCancelingTableViewCell.swift for details.
+            taskToCancelifCellIsReused = task
+        }
+    }
+
     
     
     

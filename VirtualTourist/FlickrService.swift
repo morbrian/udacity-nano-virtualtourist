@@ -32,7 +32,7 @@ class FlickrService {
     // Fetch a list of objects from the Parse service for the specified class type.
     func fetchPhotosNearCoordinates(#latitude: Double, longitude: Double, radiusKm: Double = 10,
         completionHandler: (photoUrls: [NSURL]?, error: NSError?) -> Void) {
-            
+            Logger.info("fetch near...")
             var parameterList: [String:AnyObject] = [
                 FlickrParameter.ApiKey:restApiKey,
                 FlickrParameter.Method:FlickrMethod.FlickrPhotosSearch,
@@ -41,7 +41,9 @@ class FlickrService {
                 FlickrParameter.NoJsonCallback:FlickrParameterValue.NoJsonCallbackOn,
                 FlickrParameter.Lat:latitude,
                 FlickrParameter.Lon:longitude,
-                FlickrParameter.Radius:radiusKm
+                FlickrParameter.Radius:radiusKm,
+                FlickrParameter.PerPage:40,
+                FlickrParameter.Page: random() % 10
             ]
             
             if let request = webClient.createHttpRequestUsingMethod(WebClient.HttpGet, forUrlString: "\(FlickrService.BaseUrl)",
@@ -97,6 +99,7 @@ extension FlickrService {
         static let Method = "method"
         static let ApiKey = "api_key"
         static let PerPage = "per_page"
+        static let Page = "page"
         static let ResponseFormat = "format"
         static let NoJsonCallback = "nojsoncallback"
         static let Lat = "lat"
@@ -149,6 +152,10 @@ extension FlickrService {
             default: return "Unknown Error"
             }
         }
+    }
+    
+    struct Caches {
+        static let imageCache = ImageCache()
     }
     
     // createErrorWithCode

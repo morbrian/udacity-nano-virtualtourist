@@ -16,11 +16,9 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var context: NSManagedObjectContext?
+    var context: NSManagedObjectContext!
     
-    var pins: [Pin]!
     var userPreferences: UserPreferences!
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +29,18 @@ class MapViewController: UIViewController {
             mapView.setRegion(restoredRegion, animated: true)
         }
 
-        pins = Pin.fetchFromManagedObjectContext(context!)
-        mapView.addAnnotations(pins)
+        var error: NSError? = nil
+        
+        fetchedResultsController.performFetch(&error)
+        
+        if let error = error {
+            println("Unresolved error \(error), \(error.userInfo)")
+            abort()
+        }
+        
+        if let pins = fetchedResultsController.fetchedObjects as? [Pin] {
+            mapView.addAnnotations(pins)
+        }
         
         mapView.delegate = self
         view.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: "handleLongPress:"))
@@ -49,9 +57,26 @@ class MapViewController: UIViewController {
             self.mapView.addAnnotation(pin)
         }
     }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        // Create the fetch request
+        let fetchRequest = NSFetchRequest(entityName: Constants.PinEntityName)
+        
+        // Add a sort descriptor. This enforces a sort order on the results that are generated
+        // In this case we want the events sored by their timeStamps.
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: false)]
+        
+        // Create the Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Return the fetched results controller. It will be the value of the lazy variable
+        return fetchedResultsController
+    } ()
+
 }
 
-// MARK: - MKMapViewDelegate 
+// MARK: - MKMapViewDelegate
 
 extension MapViewController: MKMapViewDelegate {
     
@@ -96,7 +121,7 @@ extension MapViewController: MKMapViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let destination = segue.destinationViewController as? AlbumViewController,
             pin = sender as? Pin {
-                destination.photos = pin.photos
+                destination.pin = pin
         }
     }
 }
@@ -119,6 +144,7 @@ extension Pin: MKAnnotation {
 }
 
 // MARK: - Printable MKAnnotationViewDragState
+
 extension MKAnnotationViewDragState: Printable {
     public var description: String {
         switch self {

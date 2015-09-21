@@ -18,7 +18,7 @@ extension Pin {
         let newPin = NSEntityDescription.insertNewObjectForEntityForName(Constants.PinEntityName, inManagedObjectContext: context) as! Pin
         newPin.coordinate = location
         CoreDataStackManager.sharedInstance().saveContext()
-        newPin.refreshPhotos()
+        newPin.fetchPhotoList()
         return newPin
     }
     
@@ -35,10 +35,7 @@ extension Pin {
         }
     }
     
-    func refreshPhotos() {
-        for photo in photos {
-            photo.pin = nil
-        }
+    func fetchPhotoList(completionHandler: (() -> Void)? = nil) {
         FlickrService.sharedInstance().fetchPhotosNearCoordinates(latitude: Double(latitude), longitude: Double(longitude)) { photoUrls, error in
             if let error = error {
                 Logger.error("Failed to get photo list for pin: \(error)")
@@ -47,6 +44,7 @@ extension Pin {
                     dispatch_async(dispatch_get_main_queue()) {
                         if let context = self.managedObjectContext {
                             Photo.createInManagedObjectContext(context, pin: self, photoUrlString: photoUrl.absoluteString!)
+                              completionHandler?()
                         }
                     }
                 }
@@ -68,7 +66,6 @@ extension Pin {
         set {
             latitude = newValue.latitude
             longitude = newValue.longitude
-            refreshPhotos()
         }
     }
     

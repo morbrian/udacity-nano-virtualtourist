@@ -23,26 +23,96 @@ extension Photo {
         return newPhoto
     }
     
-    var title: String {
+    var title: String? {
         return photoUrlString
     }
-
-    // loads the image on a background thread, runs the completion handler back on the main thread
-    func loadImage(completionHandler: (image: UIImage?, error: NSError?) -> (Void)) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
-            let imageURL = NSURL(string: self.photoUrlString)
-            if let imageData = NSData(contentsOfURL: imageURL!) {
-                dispatch_async(dispatch_get_main_queue(), {
-                    completionHandler(image: UIImage(data: imageData), error: nil)
-                })
+    
+    var photoUrlString: String? {
+        get {
+            if let photoPath = photoPath where !photoPath.isEmpty {
+                let parts = photoPath.pathComponents
+                let firstSeparator = find(photoPath, "/")
+                let host = photoPath[photoPath.startIndex..<firstSeparator!]
+                let path = photoPath[firstSeparator!..<photoPath.endIndex]
+                return "https://\(host)\(path)"
             } else {
-                Logger.error("No Image Data From URL: \(imageURL)")
-                dispatch_async(dispatch_get_main_queue(), {
-                    // TODO: create error object
-                    completionHandler(image: nil, error: nil)
-                })
+                return nil
+            }
+        }
+        
+        set {
+            if let newValue = newValue,
+                newPathUrl =  NSURL(string: newValue) {
+                photoPath = "\(newPathUrl.host!)\(newPathUrl.path!)"
+            } else {
+                photoPath = nil
             }
         }
     }
+    
+    var photoImage: UIImage? {
+        
+        get {
+            return FlickrService.Caches.imageCache.imageWithIdentifier(photoPath)
+        }
+        
+        set {
+            if let photoPath = photoPath {
+                FlickrService.Caches.imageCache.storeImage(newValue, withIdentifier: photoPath)
+            }
+        }
+    }
+    
+    // MARK: - All purpose task method for images
+    
+    func taskForImage(completionHandler: (imageData: NSData?, error: NSError?) ->  Void) -> NSURLSessionTask {
+        
+        let url = NSURL(string: self.photoUrlString!)!
+        let request = NSURLRequest(URL: url)
+        
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, downloadError in
+            
+            if let error = downloadError {
+                //let newError = TheMovieDB.errorForData(data, response: response, error: downloadError)
+                dispatch_async(dispatch_get_main_queue(), {
+                    completionHandler(imageData: nil, error: error)
+                })
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    completionHandler(imageData: data, error: nil)
+                })
+            }
+        }
+        
+        task.resume()
+        
+        return task
+    }
+    
+    // loads the image on a background thread, runs the completion handler back on the main thread
+//    func loadImageTask(completionHandler: (image: UIImage?, error: NSError?) -> (Void)) -> NSURLSessionTask {
+//        
+//        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, downloadError in
+//            
+//            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+//                if let imageUrlString = self.photoUrlString,
+//                    imageUrl = NSURL(string: imageUrlString),
+//                    imageData = NSData(contentsOfURL: imageUrl) {
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        completionHandler(image: UIImage(data: imageData), error: nil)
+//                    })
+//                } else {
+//                    Logger.error("No Image Data From URL: \(self.photoUrlString)")
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        // TODO: create error object
+//                        completionHandler(image: nil, error: nil)
+//                    })
+//                }
+//            }
+//        }
+//        task.resume()
+//        return task
+//    }
     
 }
