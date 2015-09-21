@@ -30,8 +30,6 @@ class AlbumCellView: TaskCancelingCollectionViewCell {
     // MARK: - Configure Cell
     
     func configureCell(photo: Photo) {
-        Logger.info("Configure Cell For: \(photo.photoUrlString)")
-
         // Set the Image
 
         if photo.photoPath == nil || photo.photoPath!.isEmpty {
@@ -69,8 +67,5 @@ class AlbumCellView: TaskCancelingCollectionViewCell {
             taskToCancelifCellIsReused = task
         }
     }
-
-    
-    
     
 }

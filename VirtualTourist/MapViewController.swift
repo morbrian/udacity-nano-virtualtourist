@@ -108,13 +108,7 @@ extension MapViewController: MKMapViewDelegate {
             return pinView
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
-        Logger.info("DragState: \(newState)");
-        // TODO: we could probably do something to persist the state immediately when drag ended.
-    }
-    
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        Logger.info("Tapped It With State: \(view.dragState)")
         self.performSegueWithIdentifier(Constants.ShowAlbumSegue, sender: view.annotation)
     }
     

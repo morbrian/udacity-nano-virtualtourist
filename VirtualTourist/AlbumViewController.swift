@@ -42,10 +42,7 @@ class AlbumViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Step 2: Perform the fetch
         fetchedResultsController.performFetch(nil)
-        
-        // Step 6: Set the delegate to this view controller
         fetchedResultsController.delegate = self
     }
     
@@ -105,7 +102,6 @@ extension AlbumViewController: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
-        Logger.info("Delete for path \(photo.photoPath)")
         FlickrService.Caches.imageCache.storeImage(nil, withIdentifier: photo.photoPath!)
         sharedContext.deleteObject(photo)
         CoreDataStackManager.sharedInstance().saveContext()

@@ -18,7 +18,6 @@ extension Pin {
         let newPin = NSEntityDescription.insertNewObjectForEntityForName(Constants.PinEntityName, inManagedObjectContext: context) as! Pin
         newPin.coordinate = location
         CoreDataStackManager.sharedInstance().saveContext()
-        newPin.fetchPhotoList()
         return newPin
     }
     
@@ -66,6 +65,7 @@ extension Pin {
         set {
             latitude = newValue.latitude
             longitude = newValue.longitude
+            fetchPhotoList()
         }
     }
     
