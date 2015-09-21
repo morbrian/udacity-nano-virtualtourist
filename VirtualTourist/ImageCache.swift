@@ -55,13 +55,16 @@ class ImageCache {
         // And in documents directory
         let data = UIImagePNGRepresentation(image!)
         data.writeToFile(path, atomically: true)
+        let exists = NSFileManager.defaultManager().fileExistsAtPath(path)
+        Logger.info("File Exists [\(exists)] at \(path)")
     }
     
     // MARK: - Helper
     
     func pathForIdentifier(identifier: String) -> String {
         let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first as! NSURL
-        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)
+        let flatIdentifier = identifier.stringByReplacingOccurrencesOfString("/", withString: "~")
+        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(flatIdentifier)
         
         return fullURL.path!
     }
