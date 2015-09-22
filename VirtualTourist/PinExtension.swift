@@ -83,14 +83,11 @@ extension Pin {
             return CLLocationCoordinate2D(latitude: CLLocationDegrees(self.copyLatitude), longitude: CLLocationDegrees(self.copyLongitude))
         }
         set {
-            Logger.info("SETTING COORD ON PIN")
             self.managedObjectContext?.performBlockAndWait {
                 self.latitude = newValue.latitude
                 self.longitude = newValue.longitude
             }
-            Logger.info("COMPLETE COORD SET, START FETCH")
             fetchPhotoList()
-            Logger.info("FETCH COMPLETED")
         }
     }
     
