@@ -60,11 +60,13 @@ class AlbumViewController: UIViewController {
     }
     
     @IBAction func newCollectionAction(sender: UIBarButtonItem) {
-        for obj in fetchedResultsController.fetchedObjects! {
-            let photo = obj as! Photo
-            sharedContext.deleteObject(photo)
-            FlickrService.Caches.imageCache.storeImage(nil, withIdentifier: photo.photoPath!)
-            CoreDataStackManager.sharedInstance().saveContext()
+        sharedContext.performBlockAndWait {
+            for obj in self.fetchedResultsController.fetchedObjects! {
+                let photo = obj as! Photo
+                self.sharedContext.deleteObject(photo)
+                FlickrService.Caches.imageCache.storeImage(nil, withIdentifier: photo.photoPath!)
+                CoreDataStackManager.sharedInstance().saveContext()
+            }
         }
         pin?.fetchPhotoList() {fetchedResultsController.performFetch(nil)}
     }
@@ -102,9 +104,11 @@ extension AlbumViewController: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
-        FlickrService.Caches.imageCache.storeImage(nil, withIdentifier: photo.photoPath!)
-        sharedContext.deleteObject(photo)
-        CoreDataStackManager.sharedInstance().saveContext()
+        FlickrService.Caches.imageCache.storeImage(nil, withIdentifier: photo.copyPhotoPath!)
+        sharedContext.performBlockAndWait {
+            self.sharedContext.deleteObject(photo)
+            CoreDataStackManager.sharedInstance().saveContext()
+        }
     }
 
 }

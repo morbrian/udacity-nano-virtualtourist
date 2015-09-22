@@ -16,11 +16,23 @@ extension Photo {
     
     // creates a new Photo, associates it with the pin and photoUrl, and persist it.
     class func createInManagedObjectContext(context: NSManagedObjectContext, pin: Pin, photoUrlString: String) -> Photo {
-        let newPhoto = NSEntityDescription.insertNewObjectForEntityForName(Constants.PhotoEntityName, inManagedObjectContext: context) as! Photo
-        newPhoto.pin = pin
-        newPhoto.photoUrlString = photoUrlString
-        CoreDataStackManager.sharedInstance().saveContext()
-        return newPhoto
+        var photo: Photo?
+        context.performBlockAndWait {
+            let newPhoto = NSEntityDescription.insertNewObjectForEntityForName(Constants.PhotoEntityName, inManagedObjectContext: context) as! Photo
+            newPhoto.pin = pin
+            newPhoto.photoUrlString = photoUrlString
+            CoreDataStackManager.sharedInstance().saveContext()
+            photo = newPhoto
+        }
+        return photo!
+    }
+    
+    var copyPhotoPath: String? {
+        var copy: String?
+        CoreDataStackManager.sharedInstance().managedObjectContext!.performBlockAndWait {
+            copy = self.photoPath
+        }
+        return copy
     }
     
     var title: String? {
@@ -29,7 +41,7 @@ extension Photo {
     
     var photoUrlString: String? {
         get {
-            if let photoPath = photoPath where !photoPath.isEmpty {
+            if let photoPath = copyPhotoPath where !photoPath.isEmpty {
                 let parts = photoPath.pathComponents
                 let firstSeparator = find(photoPath, "/")
                 let host = photoPath[photoPath.startIndex..<firstSeparator!]
@@ -53,11 +65,11 @@ extension Photo {
     var photoImage: UIImage? {
         
         get {
-            return FlickrService.Caches.imageCache.imageWithIdentifier(photoPath)
+            return FlickrService.Caches.imageCache.imageWithIdentifier(copyPhotoPath)
         }
         
         set {
-            if let photoPath = photoPath {
+            if let photoPath = copyPhotoPath {
                 FlickrService.Caches.imageCache.storeImage(newValue, withIdentifier: photoPath)
             }
         }

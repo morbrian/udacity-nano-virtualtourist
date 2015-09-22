@@ -56,7 +56,6 @@ class ImageCache {
         let data = UIImagePNGRepresentation(image!)
         data.writeToFile(path, atomically: true)
         let exists = NSFileManager.defaultManager().fileExistsAtPath(path)
-        Logger.info("File Exists [\(exists)] at \(path)")
     }
     
     // MARK: - Helper

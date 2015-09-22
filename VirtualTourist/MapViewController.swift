@@ -98,7 +98,7 @@ extension MapViewController: MKMapViewDelegate {
             if pinView == nil {
                 pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
                 pinView!.canShowCallout = false
-                pinView!.draggable = true
+                pinView!.draggable = false
                 pinView!.animatesDrop = true
                 pinView!.pinColor = .Green
             } else {
@@ -133,7 +133,7 @@ extension Pin: MKAnnotation {
     }
     
     var draggable: Bool {
-        return true
+        return false
     }
 }
 

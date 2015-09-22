@@ -15,10 +15,14 @@ import CoreData
 extension Pin {
     
     class func createInManagedObjectContext(context: NSManagedObjectContext, location: CLLocationCoordinate2D) -> Pin {
-        let newPin = NSEntityDescription.insertNewObjectForEntityForName(Constants.PinEntityName, inManagedObjectContext: context) as! Pin
-        newPin.coordinate = location
-        CoreDataStackManager.sharedInstance().saveContext()
-        return newPin
+        var pin: Pin?
+        context.performBlockAndWait {
+            let newPin = NSEntityDescription.insertNewObjectForEntityForName(Constants.PinEntityName, inManagedObjectContext: context) as! Pin
+            newPin.coordinate = location
+            CoreDataStackManager.sharedInstance().saveContext()
+            pin = newPin
+        }
+        return pin!
     }
     
     class func fetchFromManagedObjectContext(context: NSManagedObjectContext) -> [Pin] {
@@ -35,7 +39,7 @@ extension Pin {
     }
     
     func fetchPhotoList(completionHandler: (() -> Void)? = nil) {
-        FlickrService.sharedInstance().fetchPhotosNearCoordinates(latitude: Double(latitude), longitude: Double(longitude)) { photoUrls, error in
+        FlickrService.sharedInstance().fetchPhotosNearCoordinates(latitude: Double(copyLatitude), longitude: Double(copyLongitude)) { photoUrls, error in
             if let error = error {
                 Logger.error("Failed to get photo list for pin: \(error)")
             } else if let photoUrls = photoUrls {
@@ -57,15 +61,36 @@ extension Pin {
 // MARK: - Pin Model Extenstions
 
 extension Pin {
+    
+    var copyLatitude: Double {
+        var copy: Double?
+        self.managedObjectContext?.performBlockAndWait {
+            copy = self.latitude
+        }
+        return copy!
+    }
+    
+    var copyLongitude: Double {
+        var copy: Double?
+        self.managedObjectContext?.performBlockAndWait {
+            copy = self.longitude
+        }
+        return copy!
+    }
 
     var coordinate: CLLocationCoordinate2D {
         get {
-            return CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+            return CLLocationCoordinate2D(latitude: CLLocationDegrees(self.copyLatitude), longitude: CLLocationDegrees(self.copyLongitude))
         }
         set {
-            latitude = newValue.latitude
-            longitude = newValue.longitude
+            Logger.info("SETTING COORD ON PIN")
+            self.managedObjectContext?.performBlockAndWait {
+                self.latitude = newValue.latitude
+                self.longitude = newValue.longitude
+            }
+            Logger.info("COMPLETE COORD SET, START FETCH")
             fetchPhotoList()
+            Logger.info("FETCH COMPLETED")
         }
     }
     

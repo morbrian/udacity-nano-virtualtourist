@@ -31,8 +31,7 @@ class AlbumCellView: TaskCancelingCollectionViewCell {
     
     func configureCell(photo: Photo) {
         // Set the Image
-
-        if photo.photoPath == nil || photo.photoPath!.isEmpty {
+        if photo.copyPhotoPath == nil || photo.copyPhotoPath!.isEmpty {
             imageView!.image = UIImage(named: "photoNoImage")
         } else if photo.photoImage != nil {
             imageView!.image = photo.photoImage
@@ -56,7 +55,7 @@ class AlbumCellView: TaskCancelingCollectionViewCell {
                     // update the model, so that the infrmation gets cashed
                     photo.photoImage = image
                     
-                    if self.photo?.photoPath == photo.photoPath {
+                    if self.photo?.copyPhotoPath == photo.copyPhotoPath {
                         self.activityIndicator?.stopAnimating()
                         self.imageView!.image = image
                     }
